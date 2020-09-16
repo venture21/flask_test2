@@ -2,7 +2,8 @@ from flask import Flask, send_file, render_template, make_response
 
 from io import BytesIO
 import numpy as np 
-import time 
+import time
+import threading 
 
 import matplotlib as mpl
 mpl.use('Agg')
@@ -26,6 +27,19 @@ def nocache(view):
 ###############
 
 app = Flask(__name__, static_url_path='/static', )
+
+
+
+def func1():
+  while(True):
+    time.sleep(5)
+    print("hello")
+    
+
+def timer_run():
+  print('Timer thread running')
+  threading.Timer(5.0, timer_run).start()
+
 
 
 @app.route('/single')
@@ -119,5 +133,7 @@ def fig3(xsize, ysize):
 
 #################
 if __name__ == '__main__':
-    # threaded=True 로 넘기면 multiple plot이 가능해짐
+  threading.Thread(target=func1).start()
+  
+  # threaded=True 로 넘기면 multiple plot이 가능해짐
   app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
