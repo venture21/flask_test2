@@ -4,7 +4,6 @@ from io import BytesIO
 import numpy as np 
 import time 
 
-## macOS의 경우 아래 순서에 따라서 library를 import해줘야 에러없이 잘 됩니다. 
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
@@ -75,7 +74,7 @@ def fig1(xsize, ysize):
   """
   file로 저장하는 것이 아니라 binary object에 저장해서 그대로 file을 넘겨준다고 생각하면 됨
   """
-  img1 = BytesIO()
+  #img1 = BytesIO()
   plt.savefig('static/img1.png', format='png', dpi=300)
   #img1.seek(0)## object를 읽었기 때문에 처음으로 돌아가줌
   #return send_file('img1.png', mimetype='image/png')
@@ -90,7 +89,7 @@ def fig2(xsize, ysize):
   """
   file로 저장하는 것이 아니라 binary object에 저장해서 그대로 file을 넘겨준다고 생각하면 됨
   """
-  img2 = BytesIO()
+  #img2 = BytesIO()
   plt.savefig('static/img2.png', format='png', dpi=300)
   #img2.seek(0)## object를 읽었기 때문에 처음으로 돌아가줌
   #return send_file('img2, mimetype='image/png')
