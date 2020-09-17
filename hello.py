@@ -26,7 +26,25 @@ def nocache(view):
   return update_wrapper(no_cache, view)
 ###############
 
-app = Flask(__name__, static_url_path='/static', )
+
+
+COUNTER_MAX = 5000
+
+#Create a threaded task which will update a counter
+#every 1 second. 
+class ThreadedTask(threading.Thread):
+    def __init__(self,):
+        self.counter = 0
+        self.COUNTER_MAX = 5000
+        threading.Thread.__init__(self)
+        
+    def run(self):
+        while True:
+            self.counter += 1
+            if self.counter > self.COUNTER_MAX:
+                self.counter = 0
+            time.sleep(5)  # Simulate long running process
+            print("hello")
 
 
 
@@ -40,6 +58,8 @@ def timer_run():
   print('Timer thread running')
   threading.Timer(5.0, timer_run).start()
 
+
+app = Flask(__name__, static_url_path='/static', )
 
 
 @app.route('/single')
@@ -133,7 +153,10 @@ def fig3(xsize, ysize):
 
 #################
 if __name__ == '__main__':
-  threading.Thread(target=func1).start()
-  
+  #threading.Thread(target=func1).start()
+
+  #Start our threaded task and flask
+  task = ThreadedTask()
+  task.start()  
   # threaded=True 로 넘기면 multiple plot이 가능해짐
-  app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+  app.run(debug=True, host='0.0.0.0', port=5000)
